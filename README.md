@@ -1,0 +1,1 @@
+A simple GraphQL service that interacts with git repositories.
