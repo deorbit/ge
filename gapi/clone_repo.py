@@ -1,6 +1,7 @@
 import graphene
 from gapi.repository import Repository
 from gecore.github_repo import GitHubRepo
+import os 
 
 class CloneRepo(graphene.Mutation):
     class Arguments:
@@ -10,5 +11,9 @@ class CloneRepo(graphene.Mutation):
 
     def mutate(self, info, url=None):
         # clone from github here
-        repo = GitHubRepo(url=url)
+        try:
+            local_dir = os.environ["GE_REPO_DIR"]
+        except KeyError:
+            local_dir = ""
+        repo = GitHubRepo(url=url).clone(local_dir)
         return CloneRepo(repository=Repository(name=repo.name))

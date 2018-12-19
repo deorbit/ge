@@ -2,7 +2,6 @@
 import git
 from typing import List
 from gecore.commit import Commit
-import os
 import urllib
 from typing import TypeVar, List
 
@@ -16,11 +15,14 @@ class GitHubRepo:
         self.branches: List[str] = []
         self.commits: List[Commit] = []
 
-    def clone(self: T, local_dir: str = os.environ['GE_REPO_DIR']) -> T:
+    def clone(self: T, local_dir: str = "") -> T:
+        self.name = self.url.rsplit('/', 1)[1]
+        print(self.name)
+        if local_dir == "":
+            local_dir = self.name
         try:
             cloned_repo = git.Repo.clone_from(self.url, local_dir)
         except git.GitCommandError as err:
             print("Error cloning: {}".format(err))
             return
-        self.name = self.url.rsplit('/', 1)[1]
-        return cloned_repo
+        return self

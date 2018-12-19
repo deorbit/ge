@@ -23,7 +23,7 @@ class GeCoreTests(unittest.TestCase):
         self.assertEqual(len(repo.name), 9)
 
     def test_invalid_repo_name(self):
-        """This is not actually a good test and I'm including it primarily
+        """This is not a good test and I'm including it primarily
         for entertainment purposes and to show that I think about these things. 
         This is a real repository that exists but is uncloneable. The outcome of
         the test depends on GitHub's specification of "good" and "bad", which
