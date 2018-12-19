@@ -21,8 +21,6 @@ class GitHubRepo:
     def clone(self: T, local_dir: str = "") -> T:
         """Clones a git repository hosted at self.url into local_dir."""
         name = os.path.basename(urlparse(self.url).path)
-        if not name.endswith(".git"):
-            return GitHubRepo()
         if local_dir == "":
             local_dir = name
         try:
@@ -30,12 +28,22 @@ class GitHubRepo:
         except git.GitCommandError as err:
             print("Error cloning: {}".format(err))
             return GitHubRepo()
-        self.name = name
-        self.branches = [r.name for r in cloned_repo.refs if r not in cloned_repo.tags]
-        self.commits = [Commit(
+        in_memory_repo = GitHubRepo._from_GitPython(cloned_repo)
+        in_memory_repo.name = name
+        return in_memory_repo
+
+    @staticmethod
+    def _from_GitPython(repo: git.Repo) -> T:
+        r = GitHubRepo()
+        r.branches = [r.name for r in repo.refs if r not in repo.tags]
+        r.commits = [Commit(
                     commit_hash = c.hexsha,
                     timestamp = str(time.gmtime(c.committed_date)),
                     message = c.message,
                     author = str(c.author))
-                for c in cloned_repo.iter_commits()]
-        return self
+                for c in repo.iter_commits()]
+        return r
+
+def load_repository(name: str, local_dir: str) -> GitHubRepo:
+    """Load a repository from disk into memory."""
+    return GitHubRepo._from_GitPython(git.Repo(os.path.join(local_dir, name)))
