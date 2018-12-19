@@ -28,12 +28,14 @@ class GitHubRepo:
         except git.GitCommandError as err:
             print("Error cloning: {}".format(err))
             return GitHubRepo()
-        in_memory_repo = GitHubRepo._from_GitPython(cloned_repo)
+        in_memory_repo = GitHubRepo.from_GitPython(cloned_repo)
         in_memory_repo.name = name
         return in_memory_repo
 
     @staticmethod
-    def _from_GitPython(repo: git.Repo) -> T:
+    def from_GitPython(repo: git.Repo) -> T:
+        """Converts a GitPython Repo into our GitHubRepo
+        format for in-memory use."""
         r = GitHubRepo()
         r.branches = [r.name for r in repo.refs if r not in repo.tags]
         r.commits = [Commit(
@@ -46,4 +48,4 @@ class GitHubRepo:
 
 def load_repository(name: str, local_dir: str) -> GitHubRepo:
     """Load a repository from disk into memory."""
-    return GitHubRepo._from_GitPython(git.Repo(os.path.join(local_dir, name)))
+    return GitHubRepo.from_GitPython(git.Repo(os.path.join(local_dir, name)))
