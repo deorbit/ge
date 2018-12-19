@@ -1,5 +1,5 @@
 class Commit:
-    def __init__(self, timestamp = "", message = "", author = "", commit_hash = ""):
+    def __init__(self, timestamp = "", message = "", author = "", commit_hash = "") -> None:
         self.timestamp: str = timestamp
         self.message: str = message
         self.author: str = author
