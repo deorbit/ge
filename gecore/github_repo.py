@@ -17,7 +17,6 @@ class GitHubRepo:
 
     def clone(self: T, local_dir: str = "") -> T:
         self.name = self.url.rsplit('/', 1)[1]
-        print(self.name)
         if local_dir == "":
             local_dir = self.name
         try:
@@ -25,4 +24,6 @@ class GitHubRepo:
         except git.GitCommandError as err:
             print("Error cloning: {}".format(err))
             return
+        self.branches = [r.name for r in cloned_repo.refs if r not in cloned_repo.tags]
+        # self.commits = cloned_repo.iter_commits        
         return self

@@ -10,7 +10,6 @@ class CloneRepo(graphene.Mutation):
     repository = graphene.Field(lambda: Repository)
 
     def mutate(self, info, url=None):
-        # clone from github here
         try:
             local_dir = os.environ["GE_REPO_DIR"]
         except KeyError:
