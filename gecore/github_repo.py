@@ -45,10 +45,11 @@ class GitHubRepo:
                     commit_hash = c.hexsha,
                     timestamp = datetime.fromtimestamp(c.committed_date),
                     message = c.message,
-                    author = str(c.author))
+                    author = c.author.name + " <" + c.author.email + ">")
                 for c in repo.iter_commits()]
         # Probably don't need to sort here, but this is not very expensive.
-        r.original_author = sorted(r.commits, key=lambda c: c.timestamp)[0].author
+        first_commit = sorted(r.commits, key=lambda c: c.timestamp)[0]
+        r.original_author = first_commit.author
         r.name = os.path.split(repo.working_tree_dir)[1]
         return r
 

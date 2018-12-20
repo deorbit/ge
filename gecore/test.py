@@ -26,7 +26,7 @@ class GeCoreTests(unittest.TestCase):
         url = "https://github.com/requests/requests"
         repo = GitHubRepo(url).clone(local_dir = self.local_dest)
         self.assertEqual(len(repo.name), 8)
-        self.assertEqual(repo.original_author, "Kenneth Reitz")
+        self.assertEqual(repo.original_author, "Kenneth Reitz <me@kennethreitz.com>")
 
     def test_not_a_remote_repo(self):
         url = "https://github.com/deorbit"
