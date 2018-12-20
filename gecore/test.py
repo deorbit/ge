@@ -1,5 +1,5 @@
 import unittest
-from gecore.github_repo import GitHubRepo
+from gecore.github_repo import GitHubRepo, load_repository
 import os
 import shutil
 
@@ -46,3 +46,8 @@ class GeCoreTests(unittest.TestCase):
         repo.clone(local_dir="/well/theres/a/golden/age/coming/round")
         self.assertEqual(len(repo.name), 0)
         self.assertListEqual(repo.commits, [])
+
+    def test_load_repository(self):
+        repo = load_repository("./")
+        self.assertIn("test01", repo.branches)
+        self.assertEqual("ge", repo.name)
