@@ -1,0 +1,6 @@
+.git
+.DS_Store
+.pyc
+.mypy_cache
+_pycache_
+.env
