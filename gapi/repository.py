@@ -4,6 +4,7 @@ import gecore.github_repo
 import os
 
 class Repository(graphene.ObjectType):
+    """Repository represents a git repository."""
     url = graphene.String()
     name = graphene.String()
     original_author = graphene.String()
@@ -14,6 +15,8 @@ class Repository(graphene.ObjectType):
         return get_commits(self.name)
 
 def get_repository(name: str = None):
+    """Fetch a gecore repository and return it as a
+    GraphQL object."""
     try:
         local_dir = os.environ['GE_REPO_DIR']
     except KeyError:

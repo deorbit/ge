@@ -4,6 +4,7 @@ import gecore.commit
 import os 
 
 class Commit(graphene.ObjectType):
+    """Commit represents a single git commit."""
     timestamp = graphene.String()
     message = graphene.String()
     author = graphene.String()
