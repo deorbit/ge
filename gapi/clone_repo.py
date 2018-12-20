@@ -14,5 +14,6 @@ class CloneRepo(graphene.Mutation):
             local_dir = os.environ["GE_REPO_DIR"]
         except KeyError:
             local_dir = ""
+        
         repo = GitHubRepo(url=url).clone(local_dir)
         return CloneRepo(repository=Repository(name=repo.name))

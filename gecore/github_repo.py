@@ -23,6 +23,8 @@ class GitHubRepo:
         name = os.path.basename(urlparse(self.url).path)
         if local_dir == "":
             local_dir = name
+        else:
+            local_dir = os.path.join(local_dir, name)
         try:
             cloned_repo = git.Repo.clone_from(self.url, local_dir)
         except git.GitCommandError as err:
