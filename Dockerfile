@@ -1,19 +1,11 @@
-FROM python:3.6 as base
+FROM python:3.6-alpine as base
 FROM base as builder
 
-RUN mkdir /install
-WORKDIR /install
+RUN apk add --no-cache --update linux-headers musl-dev python-dev py-pip gcc git && rm -rf /var/cache/apk/*
 
-COPY requirements.txt /requirements.txt
-
-RUN pip install --install-option="--prefix=/install" -r /requirements.txt
-
-FROM base
-
-COPY --from=builder /install /usr/local
 COPY ./ /app
-
 WORKDIR /app
+RUN pip install -r ./requirements.txt
 
 ENV GE_REPO_DIR=/app/repos
 
