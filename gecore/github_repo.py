@@ -33,7 +33,7 @@ class GitHubRepo:
         return in_memory_repo
 
     @staticmethod
-    def from_GitPython(repo: git.Repo) -> T:
+    def from_GitPython(repo: git.Repo) -> GitHubRepo:
         """Converts a GitPython Repo into our GitHubRepo
         format for in-memory use."""
         r = GitHubRepo()
@@ -44,8 +44,13 @@ class GitHubRepo:
                     message = c.message,
                     author = str(c.author))
                 for c in repo.iter_commits()]
+        # Probably don't need to sort here, but I'm doing it
+        # just to be sure and also to show I know about sorted and lambda 
+        # functions.
+        r.original_author = sorted(r.commits, key=lambda c: c.timestamp)[0].author
+        r.name = os.path.split(repo.working_tree_dir)[1]
         return r
 
-def load_repository(name: str, local_dir: str) -> GitHubRepo:
+def load_repository(repo_dir: str) -> GitHubRepo:
     """Load a repository from disk into memory."""
-    return GitHubRepo.from_GitPython(git.Repo(os.path.join(local_dir, name)))
+    return GitHubRepo.from_GitPython(git.Repo(repo_dir))
