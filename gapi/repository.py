@@ -8,7 +8,7 @@ class Repository(graphene.ObjectType):
     name = graphene.String()
     original_author = graphene.String()
     branches = graphene.List(graphene.String)
-    commits = graphene.List(lambda: Commit)
+    commits = graphene.List(Commit)
 
     def resolve_commits(self, info):
         return get_commits(self.name)
@@ -27,5 +27,6 @@ def get_repository(name: str = None):
     repo.original_author = local_repo.original_author
     repo.branches = local_repo.branches
     repo.commits = map(get_commit, local_repo.commits)
+    print(repo.commits)
 
     return repo
