@@ -1,5 +1,6 @@
 import unittest
 from gecore.github_repo import GitHubRepo, load_repository
+import gecore.commit
 import os
 import shutil
 
@@ -56,3 +57,9 @@ class GeCoreTests(unittest.TestCase):
         repo = load_repository("./")
         self.assertIn("test01", repo.branches)
         self.assertEqual("ge", repo.name)
+
+    def test_commit_timestamp(self):
+        url = "https://github.com/requests/requests"
+        _ = GitHubRepo(url).clone(local_dir = self.local_dest)
+        commit = gecore.commit.get_commit("requests", "8761e9736f7d5508a5547cdf3adecbe0b7306278")
+        self.assertEqual(commit.timestamp, "Tue, 04 Dec 2018 19:16 UTC")

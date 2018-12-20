@@ -22,15 +22,7 @@ def get_commit_from_core(c: gecore.commit.Commit) -> Commit:
 def get_commit(repo_name: str, commit_hash:str) -> Commit:
     """Fetch a gecore Commit object using repository name and hash
     and return it as a GraphQL Commit object."""
-    try:
-        local_dir = os.environ['GE_REPO_DIR']
-    except KeyError:
-        local_dir = "./"
-    local_path = os.path.join(local_dir, repo_name)
-    repo = gecore.github_repo.load_repository(local_path)
-    for c in repo.commits:
-        if c.commit_hash == commit_hash:
-            return get_commit_from_core(c)
+    return get_commit_from_core(gecore.commit.get_commit(repo_name, commit_hash))
     
 def get_commits(repo_name: str) -> List[Commit]:
     """Fetch gecore commits and return them as a list of GraphQL

@@ -1,7 +1,7 @@
 
 import git
 from typing import List
-from gecore.commit import Commit
+import gecore.commit
 from urllib.parse import urlparse
 from typing import TypeVar, List
 import base64
@@ -17,7 +17,7 @@ class GitHubRepo:
         self.name: str = ""
         self.original_author: str = ""
         self.branches: List[str] = []
-        self.commits: List[Commit] = []
+        self.commits: List[gecore.commit.Commit] = []
 
     def clone(self: T, local_dir: str = "") -> T:
         """Clones a git repository hosted at self.url into local_dir."""
@@ -41,14 +41,13 @@ class GitHubRepo:
         format for in-memory use."""
         r = GitHubRepo()
         r.branches = [r.name for r in repo.refs if r not in repo.tags]
-        r.commits = [Commit(
+        r.commits = [gecore.commit.Commit(
                     commit_hash = c.hexsha,
-                    timestamp = datetime.fromtimestamp(c.committed_date),
+                    timestamp = time.strftime("%a, %d %b %Y %H:%M UTC", time.gmtime(c.authored_date)),
                     message = c.message,
                     author = c.author.name + " <" + c.author.email + ">")
                 for c in repo.iter_commits()]
-        # Probably don't need to sort here, but this is not very expensive.
-        first_commit = sorted(r.commits, key=lambda c: c.timestamp)[0]
+        first_commit = r.commits[-1]
         r.original_author = first_commit.author
         r.name = os.path.split(repo.working_tree_dir)[1]
         return r
