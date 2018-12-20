@@ -10,7 +10,7 @@ schema = graphene.Schema(query=GiQuery, mutation=GiMutations)
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
 
 def main():
-    app.run()
+    app.run(host="0.0.0.0")
 
 if __name__ == '__main__':
     main()
