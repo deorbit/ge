@@ -15,4 +15,6 @@ COPY ./ /app
 
 WORKDIR /app
 
+ENV GE_REPO_DIR=/app/repos
+
 CMD ["python", "ge.py"]
