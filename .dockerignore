@@ -4,3 +4,4 @@
 .mypy_cache
 _pycache_
 .env
+.vscode
