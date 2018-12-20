@@ -16,4 +16,10 @@ class CloneRepo(graphene.Mutation):
             local_dir = ""
         
         repo = GitHubRepo(url=url).clone(local_dir)
-        return CloneRepo(repository=Repository(name=repo.name))
+        return CloneRepo(repository=Repository(
+            url=url,
+            name=repo.name,
+            original_author=repo.original_author,
+            branches=repo.branches,
+            commits=repo.commits
+        ))

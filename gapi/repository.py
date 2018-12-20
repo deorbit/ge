@@ -20,7 +20,6 @@ def get_repository(name: str = None):
         local_dir = "./"
     local_path = os.path.join(local_dir, name)
     local_repo = gecore.github_repo.load_repository(local_path)
-
     repo = Repository()
     repo.url = local_repo.url
     repo.name = local_repo.name
