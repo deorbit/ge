@@ -4,3 +4,4 @@ __pycache__/
 .vscode
 repos/*
 !repos/.gitkeep 
+.mypy_cache
