@@ -4,3 +4,4 @@
 * overall polish
 * add mypy to Dockerfile
 * add more type checks
+* run server as non-root user
