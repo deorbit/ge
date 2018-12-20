@@ -23,6 +23,11 @@ class GeCoreTests(unittest.TestCase):
         self.assertIn("origin/multi-tool", repo.branches)
         self.assertEqual(len(repo.commits), 247)
 
+        url = "https://github.com/requests/requests"
+        repo = GitHubRepo(url).clone(local_dir = self.local_dest)
+        self.assertEqual(len(repo.name), 8)
+        self.assertEqual(repo.original_author, "Kenneth Reitz")
+
     def test_not_a_remote_repo(self):
         url = "https://github.com/deorbit"
         repo = GitHubRepo(url).clone(self.local_dest)
