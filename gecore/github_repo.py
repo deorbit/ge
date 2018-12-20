@@ -7,6 +7,7 @@ from typing import TypeVar, List
 import base64
 import time
 import os 
+from datetime import datetime
 
 T = TypeVar('T', bound='GitHubRepo')
 
@@ -42,7 +43,7 @@ class GitHubRepo:
         r.branches = [r.name for r in repo.refs if r not in repo.tags]
         r.commits = [Commit(
                     commit_hash = c.hexsha,
-                    timestamp = str(time.gmtime(c.committed_date)),
+                    timestamp = datetime.fromtimestamp(c.committed_date),
                     message = c.message,
                     author = str(c.author))
                 for c in repo.iter_commits()]
