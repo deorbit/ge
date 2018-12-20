@@ -2,6 +2,14 @@ import gecore.github_repo
 import os
 
 class Commit:
+    """Commit represents a git commit.
+    
+    Attributes:
+        timestamp: when was the commit authored?
+        message: commit message
+        author: commit creator
+        commit_hash: hex SHA1 for the commit
+    """
     def __init__(self, 
         timestamp:str = "", 
         message:str = "", 
@@ -13,7 +21,16 @@ class Commit:
         self.commit_hash: str = commit_hash
 
 def get_commit(repo_name: str, commit_hash:str) -> Commit:
-    """Fetch a gecore Commit object using repository name and hash."""
+    """Fetch a gecore Commit object using repository name and hash.
+    
+    Args:
+        repo_name: the name of the repo on disk (NB: this is not the 
+        full path of the repo, just the tail)
+        commit_hash: the full hexadecimal SHA1 hash
+
+    Returns: 
+        A Commit from the repository on disk.
+    """
     try:
         local_dir = os.environ['GE_REPO_DIR']
     except KeyError:
