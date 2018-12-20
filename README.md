@@ -1,6 +1,7 @@
 A simple GraphQL service that interacts with git repositories.
 
 docker build -t ge .
+
 docker run -i -t --rm -p 5000:5000 ge
 
 Mutation:
