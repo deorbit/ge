@@ -2,3 +2,4 @@
 * better docstrings
 * more repo and commit tests
 * overall polish
+* add mypy to Dockerfile
