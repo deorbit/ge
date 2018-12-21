@@ -1,5 +1,4 @@
-FROM python:3.6-alpine as base
-FROM base as builder
+FROM python:3.6-alpine
 
 RUN apk add --no-cache --update linux-headers musl-dev python-dev py-pip gcc git && rm -rf /var/cache/apk/*
 
