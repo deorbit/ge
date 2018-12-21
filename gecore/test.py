@@ -60,6 +60,8 @@ class GeCoreTests(unittest.TestCase):
 
     def test_commit_timestamp(self):
         url = "https://github.com/requests/requests"
-        _ = GitHubRepo(url).clone(local_dir = self.local_dest)
+        _ = GitHubRepo(url).clone(local_dir = "repos")
         commit = gecore.commit.get_commit("requests", "8761e9736f7d5508a5547cdf3adecbe0b7306278")
+        if os.path.exists("repos/requests"):
+            shutil.rmtree("repos/requests")
         self.assertEqual(commit.timestamp, "Tue, 04 Dec 2018 19:16 UTC")
